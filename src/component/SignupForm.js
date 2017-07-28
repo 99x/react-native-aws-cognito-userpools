@@ -61,6 +61,8 @@ class SignupForm extends Component {
             value={this.state.name}
             onChangeText={name => this.setState({ name })}
           />
+        </CardSection>
+        <CardSection>
           <Input
             label="Email"
             placeholder="user@abc.com"
