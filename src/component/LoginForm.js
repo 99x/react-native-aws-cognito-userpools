@@ -11,42 +11,38 @@ import config from '../config/config';
 
 import { Input, Card, CardSection, Button } from './common';
 
-class SignupForm extends Component {
+class LoginForm extends Component {
   state = { email: '', password: '', newUser: '' };
 
-  handleSubmit = () => {
+  handleSubmit = async  () => {
     // alert(this.state.email + ' ' + this.state.password);
 
     try {
-      let newUser = this.signup(this.state.email, this.state.password);
-      alert('Succesfully created');
-      console.log(newUser);
+      let userToken = await this.login(this.state.email, this.state.password);
+      alert(JSON.stringify(userToken));
     } catch (exception) {
       alert(exception);
     }
   };
 
-  signup(username, password) {
+  login(username, password) {
     let userpool = new CognitoUserPool({
       UserPoolId: config.cognito.USER_POOL_ID,
       ClientId: config.cognito.APP_CLIENT_ID
     });
 
-    let attributeDetails = new CognitoUserAttribute({
-      Name: 'email',
-      Value: username
-    });
+    let autheticationData = {
+      Username: username,
+      Password: password
+    };
+
+    let user = new CognitoUser({ Username: username, Pool: userpool });
+    let authenticationDetails = new AuthenticationDetails(autheticationData);
 
     return new Promise((resolve, reject) => {
-      userpool.signUp(username, password, [attributeDetails], null, function(
-        err,
-        result
-      ) {
-        if (err) {
-          reject(err);
-        }
-
-        resolve(result.user);
+      user.authenticateUser(authenticationDetails, {
+        onSuccess: result => resolve(result.getIdToken().getJwtToken()),
+        onFailure: err => reject(err)
       });
     });
   }
@@ -79,8 +75,7 @@ class SignupForm extends Component {
   }
 }
 
-export default SignupForm;
-
+export default LoginForm;
 
 // aws cognito-idp admin-confirm-sign-up \
 //   --region us-east-2 \
