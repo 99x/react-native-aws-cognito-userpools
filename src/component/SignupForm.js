@@ -87,6 +87,10 @@ class SignupForm extends Component {
   }
 }
 
+SignupForm.navigationOptions = {
+  title: 'Sign Up'
+};
+
 export default SignupForm;
 
 // aws cognito-idp admin-confirm-sign-up \

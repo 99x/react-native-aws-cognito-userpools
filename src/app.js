@@ -11,7 +11,7 @@ const navigationModel = props => {
   return <LoginForm navigation={props.navigation} />;
 };
 
-navigationModel.navigationOption = {
+navigationModel.navigationOptions = {
   title: 'Login'
 };
 
