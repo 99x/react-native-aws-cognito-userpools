@@ -56,6 +56,12 @@ class SignupForm extends Component {
       <Card>
         <CardSection>
           <Input
+            label="Name "
+            placeholder="Charith Wick"
+            value={this.state.name}
+            onChangeText={name => this.setState({ name })}
+          />
+          <Input
             label="Email"
             placeholder="user@abc.com"
             value={this.state.email}
@@ -80,7 +86,6 @@ class SignupForm extends Component {
 }
 
 export default SignupForm;
-
 
 // aws cognito-idp admin-confirm-sign-up \
 //   --region us-east-2 \
