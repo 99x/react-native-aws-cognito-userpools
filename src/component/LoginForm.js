@@ -14,7 +14,7 @@ import { Input, Card, CardSection, Button } from './common';
 class LoginForm extends Component {
   state = { email: '', password: '', newUser: '' };
 
-  handleSubmit = async  () => {
+  handleSubmit = async () => {
     // alert(this.state.email + ' ' + this.state.password);
 
     try {
@@ -48,6 +48,8 @@ class LoginForm extends Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
+
     return (
       <Card>
         <CardSection>
@@ -68,7 +70,10 @@ class LoginForm extends Component {
           />
         </CardSection>
         <CardSection>
-          <Button onPress={this.handleSubmit.bind(this)}>Signup</Button>
+          <Button onPress={this.handleSubmit.bind(this)}>Login</Button>
+        </CardSection>
+        <CardSection>
+          <Button onPress={() => navigate('Signup')}>Click to signup</Button>
         </CardSection>
       </Card>
     );
