@@ -1,10 +1,55 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import {
+  AuthenticationDetails,
+  CognitoUser,
+  CognitoUserAttribute,
+  CognitoUserPool
+} from '../lib';
+
+import config from '../config/config';
 
 import { Input, Card, CardSection, Button } from './common';
 
 class SignupForm extends Component {
-  state = { email: '', name: '' };
+  state = { email: '', password: '', newUser: '' };
+
+  handleSubmit = () => {
+    // alert(this.state.email + ' ' + this.state.password);
+
+    try {
+      let newUser = this.signup(this.state.email, this.state.password);
+      alert('Succesfully created');
+      console.log(newUser);
+    } catch (exception) {
+      alert(exception);
+    }
+  };
+
+  signup(username, password) {
+    let userpool = new CognitoUserPool({
+      UserPoolId: config.cognito.USER_POOL_ID,
+      ClientId: config.cognito.APP_CLIENT_ID
+    });
+
+    let attributeDetails = new CognitoUserAttribute({
+      Name: 'email',
+      Value: username
+    });
+
+    return new Promise((resolve, reject) => {
+      userpool.signUp(username, password, [attributeDetails], null, function(
+        err,
+        result
+      ) {
+        if (err) {
+          reject(err);
+        }
+
+        resolve(result.user);
+      });
+    });
+  }
 
   render() {
     return (
@@ -27,7 +72,7 @@ class SignupForm extends Component {
           />
         </CardSection>
         <CardSection>
-          <Button>Signup</Button>
+          <Button onPress={this.handleSubmit.bind(this)}>Signup</Button>
         </CardSection>
       </Card>
     );
