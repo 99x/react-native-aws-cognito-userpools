@@ -5,6 +5,7 @@ import { StackNavigator } from "react-navigation";
 import SignupForm from "./component/SignupForm";
 import LoginForm from "./component/LoginForm";
 import VerifyEmail from "./component/VerifyEmail";
+import Dashboard from "./component/Dashboard";
 
 import { Header } from "./component/common";
 
@@ -31,7 +32,8 @@ const App = StackNavigator({
       gesturesEnabled: false
     }
   },
-  VerifyEmail: { screen: VerifyEmail, title: "Verify Email" }
+  VerifyEmail: { screen: VerifyEmail, title: "Verify Email" },
+  Dashboard: { screen: Dashboard, title: "Dashboard" }
 });
 
 export default App;
