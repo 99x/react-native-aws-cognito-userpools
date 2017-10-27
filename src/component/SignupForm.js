@@ -49,8 +49,7 @@ class SignupForm extends Component {
         if (err) {
           reject(err);
         }
-
-        resolve(result.user);
+        resolve(result);
       });
     });
   }
