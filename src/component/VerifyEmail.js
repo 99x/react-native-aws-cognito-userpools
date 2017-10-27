@@ -39,28 +39,32 @@ class VerifyEmail extends Component {
       Pool: userPool
     });
 
-    const userData = {
-      Username: this.props.navigation.state.params.email,
-      Pool: userPool
-    };
-
     return new Promise((resolve, reject) => {
       cognitoUser.confirmRegistration(code, true, (err, result) => {
         if (err) reject(err);
         resolve(result);
       });
-      //   userData.signUp(username, password, [attributeDetails], null, function(
-      //     err,
-      //     result
-      //   ) {
-      //     if (err) {
-      //       reject(err);
-      //     }
-
-      //     resolve(result.user);
-      //   });
     });
   }
+
+  resendCode = () => {
+    let userPool = new CognitoUserPool({
+      UserPoolId: config.cognito.USER_POOL_ID,
+      ClientId: config.cognito.APP_CLIENT_ID
+    });
+
+    const cognitoUser = new CognitoUser({
+      Username: this.props.navigation.state.params.email,
+      Pool: userPool
+    });
+
+    return new Promise((resolve, reject) => {
+      cognitoUser.resendConfirmationCode((err, result) => {
+        if (err) reject(err);
+        alert("Confirmation code resent");
+      });
+    });
+  };
 
   render() {
     console.log(this.props);
@@ -79,6 +83,9 @@ class VerifyEmail extends Component {
         </CardSection>
         <CardSection>
           <Button onPress={this.handleSubmit.bind(this)}>Verify</Button>
+        </CardSection>
+        <CardSection>
+          <Button onPress={this.handleSubmit.bind(this)}>Resend code</Button>
         </CardSection>
       </Card>
     );
