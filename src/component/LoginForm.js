@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import React, { Component } from "react";
+import { Text, View } from "react-native";
 import {
   AuthenticationDetails,
   CognitoUser,
   CognitoUserAttribute,
   CognitoUserPool
-} from '../lib';
+} from "../lib";
 
-import config from '../config/config';
+import config from "../config/config";
 
-import { Input, Card, CardSection, Button } from './common';
+import { Input, Card, CardSection, Button } from "./common";
 
 class LoginForm extends Component {
-  state = { email: '', password: '', newUser: '' };
+  state = { email: "", password: "", newUser: "" };
 
   handleSubmit = async () => {
     // alert(this.state.email + ' ' + this.state.password);
 
     try {
       let userToken = await this.login(this.state.email, this.state.password);
-      alert(JSON.stringify(userToken));
+      this.props.navigation.navigate("Dashboard");
     } catch (exception) {
       alert(exception);
     }
@@ -73,7 +73,7 @@ class LoginForm extends Component {
           <Button onPress={this.handleSubmit.bind(this)}>Login</Button>
         </CardSection>
         <CardSection>
-          <Button onPress={() => navigate('Signup')}>Click to signup</Button>
+          <Button onPress={() => navigate("Signup")}>Click to signup</Button>
         </CardSection>
       </Card>
     );
