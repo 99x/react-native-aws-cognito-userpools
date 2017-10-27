@@ -1,26 +1,30 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import React, { Component } from "react";
+import { Text, View } from "react-native";
 import {
   AuthenticationDetails,
   CognitoUser,
   CognitoUserAttribute,
   CognitoUserPool
-} from '../lib';
+} from "../lib";
 
-import config from '../config/config';
+import config from "../config/config";
 
-import { Input, Card, CardSection, Button } from './common';
+import { Input, Card, CardSection, Button } from "./common";
 
 class SignupForm extends Component {
-  state = { email: '', password: '', newUser: '' };
+  state = { email: "", password: "", newUser: "" };
 
   handleSubmit = () => {
     // alert(this.state.email + ' ' + this.state.password);
+    console.log(this.props);
 
     try {
       let newUser = this.signup(this.state.email, this.state.password);
-      alert('Succesfully created');
-      console.log(newUser);
+      alert("Succesfully created");
+
+      this.props.navigation.navigate("VerifyEmail", {
+        email: this.state.email
+      });
     } catch (exception) {
       alert(exception);
     }
@@ -33,7 +37,7 @@ class SignupForm extends Component {
     });
 
     let attributeDetails = new CognitoUserAttribute({
-      Name: 'email',
+      Name: "email",
       Value: username
     });
 
@@ -88,7 +92,8 @@ class SignupForm extends Component {
 }
 
 SignupForm.navigationOptions = {
-  title: 'Sign Up'
+  title: "Sign Up",
+  gesturesEnabled: false
 };
 
 export default SignupForm;
